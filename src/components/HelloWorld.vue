@@ -4,27 +4,55 @@
     <h1>FriendList</h1>
   </header>
   <section id="app">
-    <ul>
+    <ul v-for="friend in friends" :key="friend.id">
       <li>
-        <h2>Manuel Lorenz</h2>
-        <button>Show Details</button>
-        <ul>
-          <li><strong>Phone:</strong> 01234 5678 991</li>
-          <li><strong>Email:</strong> manuel@localhost.com</li>
-        </ul>
-      </li>
-      <li>
-        <h2>Julie Jones</h2>
-        <button>Show Details</button>
-        <ul>
-          <li><strong>Phone:</strong> 09876 543 221</li>
-          <li><strong>Email:</strong> julie@localhost.com</li>
+        <h2>{{friend.name}}</h2>
+        <button
+            @click="showDetails(friend)"
+            :aria-expanded="selectedItem === friend.id"
+        >
+          Show Details
+        </button>
+        <ul v-if="selectedItem === friend.id">
+          <li><strong>Phone:</strong> {{friend.phone}}</li>
+          <li><strong>Email:</strong> {{friend.email}}</li>
         </ul>
       </li>
     </ul>
   </section>
   </body>
 </template>
+
+<script>
+export default{
+  data(){
+    return{
+      selectedItem:null,
+      friends:[
+        {id:1, name:'Manuel Lorenz', phone:'01234 5678 991' , email:'manuel@localhost.com'},
+        {id:2, name:'Julie Jones', phone:'01234 5678 991' , email:'julie@localhost.com'}
+      ]
+    }
+  },
+  methods:{
+    // showDetails(item){
+    //  this.friends = this.friends.map(friend=>{
+    //    if(friend.id === item.id){
+    //      return {...friend , details: !friend.details};
+    //    }
+    //    else{
+    //      return {...friend , details:false,}
+    //    }
+    //  })
+    //   console.log('Friends : ' , this.friends);
+    // },
+    showDetails(item){
+      // If the item is selected , disselect  it  otherwise select it .
+      this.selectedItem = this.selectedItem === item.id ? null : item.id;
+    }
+  },
+}
+</script>
 
 
 <style>
